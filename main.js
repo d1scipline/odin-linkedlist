@@ -177,6 +177,30 @@ class LinkedList {
     this.length += list.length;
     return;
   }
-}
 
-const fruits = new LinkedList();
+  removeAt(index) {
+    if (index < 0 || index >= this.length) {
+      throw new RangeError("Invalid index");
+    } else {
+      let i = 0;
+      let currentNode = this.first;
+      let previousNode = null;
+      while (i < index) {
+        previousNode = currentNode;
+        currentNode = currentNode.nextNode;
+        i++;
+      }
+      if (previousNode === null) {
+        this.first = currentNode.nextNode;
+      } else {
+        previousNode.nextNode = currentNode.nextNode;
+      }
+      if (this.length == index + 1) {
+        this.last = previousNode;
+      }
+    }
+    this.length -= 1;
+    console.log(this.last);
+    console.log(this.toString());
+  }
+}
