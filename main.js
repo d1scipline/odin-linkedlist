@@ -77,12 +77,28 @@ class LinkedList {
       return undefined;
     }
   }
+
+  contains(value) {
+    if (this.length != 0) {
+      let currentNode = this.first;
+      while (currentNode.nextNode != null) {
+        if (currentNode.value == value) {
+          return true;
+        }
+        currentNode = currentNode.nextNode;
+      }
+      return false;
+    } else {
+      return false;
+    }
+  }
 }
 
 const fruits = new LinkedList();
-
 fruits.append("banana");
 fruits.append("apple");
 fruits.append("pineapple");
 fruits.prepend("orange");
+
+console.log(fruits.contains("apple"));
 console.log(fruits);
