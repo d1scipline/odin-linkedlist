@@ -110,6 +110,21 @@ class LinkedList {
       return -1;
     }
   }
+
+  toString() {
+    if (this.length != 0) {
+      let output = "";
+      let currentNode = this.first;
+      while (currentNode != null) {
+        output += `( ${currentNode.value} ) -> `;
+        currentNode = currentNode.nextNode;
+      }
+      output += `${currentNode}`;
+      return output;
+    } else {
+      return "";
+    }
+  }
 }
 
 const fruits = new LinkedList();
@@ -118,4 +133,4 @@ fruits.append("apple");
 fruits.append("pineapple");
 fruits.prepend("orange");
 
-console.log(fruits);
+console.log(fruits.toString());
