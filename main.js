@@ -14,12 +14,8 @@ class LinkedList {
 
   append(value) {
     if (this.length != 0) {
-      let currentNode = this.first;
-      while (currentNode.nextNode != null) {
-        currentNode = currentNode.nextNode;
-      }
-      currentNode.nextNode = new Node(value);
-      this.last = currentNode.nextNode;
+      this.last.nextNode = new Node(value);
+      this.last = this.last.nextNode;
     } else {
       this.first = new Node(value);
       this.last = this.first;
@@ -29,6 +25,9 @@ class LinkedList {
 
   prepend(value) {
     this.first = new Node(value, this.first);
+    if (this.length == 0) {
+      this.last = this.first;
+    }
     this.length += 1;
   }
 
@@ -81,7 +80,7 @@ class LinkedList {
   contains(value) {
     if (this.length != 0) {
       let currentNode = this.first;
-      while (currentNode.nextNode != null) {
+      while (currentNode != null) {
         if (currentNode.value == value) {
           return true;
         }
@@ -104,7 +103,7 @@ class LinkedList {
           currentNode = currentNode.nextNode;
           i++;
         }
-      } while (i < this.length);
+      } while (currentNode != null);
       return -1;
     } else {
       return -1;
@@ -125,12 +124,59 @@ class LinkedList {
       return "";
     }
   }
+
+  insertAt() {
+    if (arguments.length < 2) {
+      throw new Error("Need at least two arguments");
+    }
+
+    let index = arguments[0];
+    if (index < 0 || index > this.length) {
+      throw new RangeError("Invalid index");
+    }
+    let values = Object.values(arguments).slice(1);
+    let list = new LinkedList();
+
+    for (const value of values) {
+      list.append(value);
+    }
+
+    //Inserting into an empty list
+    if (this.length == 0 && index == 0) {
+      this.first = list.first;
+      this.last = list.last;
+      this.length += list.length;
+      return;
+    }
+
+    //Insertin at the end of the list
+    if (index == this.length) {
+      this.last.nextNode = list.first;
+      this.last = list.last;
+      this.length += list.length;
+      return;
+    }
+
+    //Inserting into the beginning of the list
+    if (index == 0) {
+      list.last.nextNode = this.first;
+      this.first = list.first;
+      this.length += list.length;
+      return;
+    }
+
+    //Inserting into other indexes
+    let currentNode = this.first;
+    for (let i = 1; i < index; i++) {
+      if (currentNode.nextNode != null) {
+        currentNode = currentNode.nextNode;
+      }
+    }
+    list.last.nextNode = currentNode.nextNode;
+    currentNode.nextNode = list.first;
+    this.length += list.length;
+    return;
+  }
 }
 
 const fruits = new LinkedList();
-fruits.append("banana");
-fruits.append("apple");
-fruits.append("pineapple");
-fruits.prepend("orange");
-
-console.log(fruits.toString());
