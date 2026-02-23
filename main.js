@@ -92,6 +92,24 @@ class LinkedList {
       return false;
     }
   }
+
+  findIndex(value) {
+    if (this.length != 0) {
+      let i = 0;
+      let currentNode = this.first;
+      do {
+        if (currentNode.value == value) {
+          return i;
+        } else {
+          currentNode = currentNode.nextNode;
+          i++;
+        }
+      } while (i < this.length);
+      return -1;
+    } else {
+      return -1;
+    }
+  }
 }
 
 const fruits = new LinkedList();
@@ -100,5 +118,4 @@ fruits.append("apple");
 fruits.append("pineapple");
 fruits.prepend("orange");
 
-console.log(fruits.contains("apple"));
 console.log(fruits);
